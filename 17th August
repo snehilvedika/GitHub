@@ -1,0 +1,45 @@
+class Solution
+{
+public:
+    typedef long long ll;
+    int n, m;
+
+    ll helper(vector<vector<int>> &points, int row, int prevCol)
+    {   
+        // if row number exceeds the maxRow
+        if (row >= n)
+        {
+            return 0;
+        }
+
+        ll ans = 0;
+
+        // For every col try all possible choices
+        for (int col = 0; col < m; col++)
+        {
+
+            ll curr = points[row][col] - abs(col - prevCol) + helper(points, row + 1, col);
+
+            ans = max(ans, curr);
+        }
+
+        return ans;
+    }
+
+    long long maxPoints(vector<vector<int>> &points)
+    {
+        n = points.size();
+        m = points[0].size();
+
+        ll ans = 0;
+
+        for (int i = 0; i < m; i++)
+        {
+            ll curr = points[0][i] + helper(points, 1, i);
+
+            ans = max(curr, ans);
+        }
+
+        return ans;
+    }
+};
